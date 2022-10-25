@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/search_page.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/recipe.css') }}">
+    <body style="background: url(/static/images/bg_image_6.jpeg) no-repeat center center fixed;">
+    
+    <div class="content" id="Full wrapper">
+        <br><br>
+        <h1 class="title">{% block title %} Policook {% endblock %}</h1>
+    
+        <div class="results">
+            <h4>{{ recipe['name'] }}</h4>
+            <b>Ingredients:</b>
+            <div>
+                <img class="recipe-image-container"  src="data:image/jpeg;base64,{{ recipe['rendered_picture'] }}" width="360" height="200" alt=""> 
+                
+                <p class="ingredient-list">
+                    {% for ing in recipe['ingredients'] %}
+                
+                        <li>{{ ing.name }}
+                        
+                    {% endfor %} 
+                </p>
+                
+            </div>
+            <p> <b>Instructions:</b> <br>{{ recipe['instructions'] | safe}}</p>
+                
+            <hr class="solid">
+
+            {% for comment in comments%}
+                
+                <div class="comment">
+                    <img class="comment_profile_image" src="data:image/jpeg;base64,{{ comment['user']['rendered_profile_picture'] }}" alt="img_data"  id="imgslot" width="50"/>
+                    <p class="comment_user_name">{{ comment['user']['name'] }} {{ comment['user']['surname'] }}</p>
+                    <p class="comment_text">{{ comment['comment'].text }}</p>
+                    <div class="comment-image-box">
+                        {% if comment['comment'].rendered_picture %}
+                            <img src="data:image/jpeg;base64,{{ comment['comment']['rendered_picture'] }}" alt="img_data"  id="imgslot" class="comment_picture"/>
+                        {% endif %}
+                    </div>
+                    <p class="comment_time">{{ comment['comment'].creation_time.strftime('%d/%m/%Y-%H:%M') }}</p>
+                </div>
+                <hr class="solid">
+                
+            {% endfor %}
+
+            <div class="comment-form-box">
+                
+                <img class="comment_profile_image" src="data:image/jpeg;base64,{{ user['rendered_profile_picture'] }}" alt="img_data"  id="imgslot" width="30"/>
+                <form action="/add_comment/{{recipe['id']}}" method="POST" enctype="multipart/form-data">    
+                    {{ form.csrf_token }}
+                    {{ form.text_area(class_="comment_text_area", rows="2", cols="115", placeholder="Add your variation and/or suggestion...")}}
+                    {{ form.submit(class_="submit_variation_button") }}
+                    {{ form.image_loader_label(class_="image_loader_label") }}
+                    {{ form.comment_picture(class_="image-loader", id="image-loader", style="visibility:hidden;")}}
+                </form>
+            </div>
+           <br>
+           <br>
+           <br>
+
+
+        </div>
+    </div>
+{% endblock %}

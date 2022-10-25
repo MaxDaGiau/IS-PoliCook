@@ -1,0 +1,137 @@
+.content {
+    background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 8px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.html {
+    background: url(/static/images/bg_image_1.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.title {
+    text-align: center;
+    font-size: 50px;
+}
+
+.search_bar {
+    border-radius: 3px;
+	width: 200px;
+	height: 30px;
+}
+
+.radio_container {
+    text-align: center;
+}
+
+.radio {
+    width: 100%;
+	background: #454857;
+	padding: 4px;
+	border-radius: 3px;
+	box-shadow: inset 0 0 0 3px rgba(35, 33, 45, 0.3),
+		0 0 0 3px rgba(185, 185, 185, 0.3);
+    text-align: center;
+}
+
+.radio input {
+	width: auto;
+    height: auto;
+	appearance: none;
+	outline: none;
+	cursor: pointer;
+	border-radius: 2px;
+	padding: 4px 8px;
+	background: rgb(69, 72, 87);
+	color: #bdbdbdbd;
+	font-size: 14px;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	transition: all 100ms linear;
+}
+
+.radio input:checked {
+	background-image: linear-gradient(180deg, #95d891, #74bbad);
+	color: #fff;
+	box-shadow: 0 1px 1px #0000002e;
+	text-shadow: 0 1px 0px #79485f7a;
+}
+
+.radio input:before {
+	content: attr(label);
+	display: inline-block;
+	text-align: center;
+	width: auto;
+}
+
+.search_send_button {
+    text-align: center;
+    width: 1000;
+}
+
+.results {
+	text-align: left;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+hr.solid {
+	border-top: 3px solid #bbb;
+}
+
+.button-search, .button-add {
+	align-items: center;
+	background-color: initial;
+	background-image: linear-gradient(#464d55, #25292e);
+	border-radius: 8px;
+	border-width: 0;
+	box-shadow: 0 10px 20px rgba(35, 33, 45, .1),0 3px 6px rgba(0, 0, 0, .05);
+	box-sizing: border-box;
+	color: #fff;
+	cursor: pointer;
+	display: inline-flex;
+	flex-direction: column;
+	font-family: expo-brand-demi,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	font-size: 18px;
+	height: 38px;
+	justify-content: center;
+	line-height: 1;
+	margin: 0;
+	outline: none;
+	overflow: hidden;
+	padding: 0 32px;
+	text-align: center;
+	text-decoration: none;
+	transform: translate3d(0, 0, 0);
+	transition: all 150ms;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+
+.button-add {
+	font-size: 15px;
+	height: 30px;
+}
+  
+.button-search:hover, .button-add:hover {
+	box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
+	opacity: .85;
+}
+  
+.button-search:focus, .button-add:focus {
+	box-shadow: rgba(0, 0, 0, .5) 0 0 0 3px;
+}
+
+.recipe-image-container {
+	float: right;
+	margin-right: 20;
+}
+  
+.ingredient-list {
+	float: left;
+}

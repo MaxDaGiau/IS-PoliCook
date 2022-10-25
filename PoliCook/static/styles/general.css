@@ -1,0 +1,34 @@
+.navbar {
+    background-color: rgb(69, 72, 87);
+    box-shadow: inset 0 0 0 3px rgba(35, 33, 45, 0.3),
+		0 0 0 3px rgba(185, 185, 185, 0.3);
+}
+
+.navbar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: right;
+    padding: 4px 10px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+
+.navbar-item:hover {
+    background-image: linear-gradient(180deg, #95d891, #74bbad);
+    box-shadow: 0 1px 1px #0000002e;
+	text-shadow: 0 1px 0px #79485f7a;
+    border-radius: 4px;
+    color: black;
+}
+
+
+.profile_picture_navbar {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 860px;   
+}
+
+.friends-search-bar {
+    margin-left: 20px;
+}

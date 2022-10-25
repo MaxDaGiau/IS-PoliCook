@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/login.css') }}">
+
+<div class="login_page">
+    <h3 class="title">Login</h3>
+    <div class="login_box">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{category}}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST" action="/login">
+            {{ form.csrf_token }}
+            
+            {% for field in form%}
+                {% for error in field.errors %}
+                    <div class="alert error">
+                        {{ error }}
+                    </div>    
+                {% endfor %}
+            {% endfor %}
+            
+            {{ form.email.label }}
+            {{ form.email(class_="email_input") }}
+            
+            {{ form.password.label }}
+            {{ form.password(class_="password_input") }}
+            
+            {{ form.remember_me.label }}
+            {{ form.remember_me(class_="checkbox") }}
+            
+            {{ form.submit(class_="login_button") }}
+        </form>
+        
+        <div class="footer_message">
+            <p>Don't have an account yet? <a href="/signup">Sign up</a> now</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

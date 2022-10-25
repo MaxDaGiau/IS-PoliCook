@@ -1,0 +1,66 @@
+.profile_self, .profile_friends {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    margin-top: 20px;
+}
+
+.profile_friends {
+    margin-left: 20px;
+}
+
+.profile_picture {
+    display:inline-block;
+    position:relative;
+}
+
+.profile_picture button {
+    position:absolute;
+    top:5px;
+    right:5px;
+}
+
+.change-propic-label {
+    background-image: url(/static/images/change_profile_picture_icon.jpeg);
+    background-size:cover;
+    margin-top: 10px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.change_profile_picture {
+    border: none;
+    background: url('static/images/change_profile_picture_icon.jpeg') no-repeat top left;
+}
+
+.search-bar-friends {
+    border-radius: 4px;
+    width: 350px;
+	height: 30px;
+}
+
+.friend-propic {
+    float: left;
+    margin-right: 10px;
+}
+
+.alert {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.error {
+    background-color: #f44336; /* Red */
+}
+
+.warning {
+    background-color: #e49d3a; /* Orange */
+}
+
+.message {
+    background-color: #63d665; /* Green */
+}

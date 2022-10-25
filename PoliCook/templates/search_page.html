@@ -1,0 +1,139 @@
+ {% extends "base.html" %}
+
+{% block content %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/search_page.css') }}">
+    <body style="background: url(/static/images/bg_image_6.jpeg) no-repeat center center fixed;">
+    
+    <div class="content" id="Full wrapper">
+        <br><br>
+        <h1 class="title">{% block title %} Policook {% endblock %}</h1>
+    
+        <h4 for="ingredients">Search recipes by ingredients!</h4>
+        <br>
+        <form onsubmit="return addIngredient(this.ingredients);">
+            <input type="text" class="search_bar" id="ingredients" name="ingredients" placeholder="Choose your ingredient">
+            <input type="submit" class="button-add" id="submit_ingredient" name="submit_ingredient" value="Add">
+        </form>
+        
+        <br><br>
+        <div id="ingredient_label"></div>
+    
+
+        <form action="/search" method="POST">
+        
+            {{ form.csrf_token }}
+
+            <div class="radio">                
+                
+                {% for subfield in form.dish_type %}
+                    {{ subfield(label=subfield.label.text) }}
+                {% endfor %}
+            </div>
+            <br>
+            {{ form.submit(class="button-search") }}
+            {{ form.ingredients_list }}
+
+        </form>
+        <div class="results">
+
+            {% if results is not none %} 
+                {% if results|length == 0 %}
+                    <h4 style="text-align: center"> No recipe with these ingredients, sorry!</h4>
+                {% endif %}
+
+                {% for res in results %}
+                    <h4> {{ res['recipe']['name'] }}</h4>
+                        <b>Ingredients:</b>
+                        <div>
+                            <img class="recipe-image-container" src="data:image/jpeg;base64,{{ res['recipe']['rendered_picture'] }}" width="360" height="200" alt=""> 
+                            
+                            <p class="ingredient-list">
+                                {% for ing in res['recipe']['ingredients'] %}
+                                    <li>{{ ing.name }}
+                                {% endfor %} 
+                            </p>
+                                
+                        </div>
+                        <div class="instructions">
+                            <p> 
+                                <b>Instructions:</b> 
+                                <br>{{ res['recipe']['instructions']| safe}}</p>
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <div class="friends-who-commented">
+                                <a href="{{ url_for('add_comment_bp.add_comment', recipe_id=res['recipe']['id']) }}">{{ res['comment_message'] }}</a>
+                            </div>
+                        {% endif %}
+                        
+                        <hr class="solid">
+                {% endfor %}
+            {% endif %}
+        </div>
+        </body>
+    </div>
+        
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        
+        <script>
+            $( function() {
+                var availableTags = {{ all_ingredients | safe}};
+                $( "#ingredients" ).autocomplete({
+                source: availableTags
+                });
+            } );
+        </script>
+
+        <script>
+            function addIngredient(ingredient) {
+                var ingredient_label = document.getElementById("ingredient_label");
+                var ingredients_list = document.getElementById("ingredients_list");
+
+                if(ingredient_label.textContent == "") {
+                        ingredient_label.append("Ingredient list: "+this.ingredients.value)
+                        ingredients_list.value += (this.ingredients.value)
+                }
+                else{
+                    ingredient_label.append(", " + this.ingredients.value)
+                    ingredients_list.value += (","+this.ingredients.value)
+                }
+
+                
+                var search_bar = document.getElementById("ingredients");
+                search_bar.value = "";
+                
+                return false;
+            }
+        </script>
+        
+        
+        <script>
+            window.onload = function () {
+        // Array of Images
+        var backgroundImg=[
+            "static/images/bg_image_1.jpeg",
+            "static/images/bg_image_2.jpeg",
+            "static/images/bg_image_3.jpeg",
+            "static/images/bg_image_4.jpeg",
+            "static/images/bg_image_5.jpeg",
+            "static/images/bg_image_6.jpeg"
+            ]
+
+            setInterval(changeImage, 40000);
+        function changeImage() {   
+            var i = Math.floor((Math.random() * 6));
+
+            document.body.style = "background: url('/"+backgroundImg[i]+"') no-repeat center center fixed; background-size:cover;";
+
+        }
+        }
+        </script>
+
+
+
+{% endblock %}

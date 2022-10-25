@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" type= "text/css"  href= "{{ url_for('static', filename='styles/homepage.css') }}">
+    <div class="homepage">
+        <h1 class="title">
+            Policook
+        </h1>
+        <h2 class="subtitle">
+            Start cooking in a different way
+        </h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="info">
+                {{ messages[0]}}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% if current_user.is_authenticated %}
+
+            <img class="post_profile_image" src="data:image/jpeg;base64,{{ current_user['rendered_profile_picture'] }}" alt="img_data"  id="imgslot" width="30"/>
+            
+            <form method="POST" action="/" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {{ form.text_area(rows="3", cols="115", class_="post_text_area", placeholder="Share your cooking attempt!") }}
+                {{ form.submit(class_="submit_post_button") }}
+                {{ form.image_loader_label(class_="image_loader_label") }}
+                {{ form.post_picture(class_="image-loader", id="image-loader", style="visibility:hidden;")}}
+            </form>
+
+            <hr class="solid">
+
+            {% for post in posts %}
+                <div class="post">
+                    <img class="post_profile_image" src="data:image/jpeg;base64,{{ post['user']['rendered_profile_picture'] }}" alt="img_data"  id="imgslot" width="50"/>
+                    <p class="user_name">{{ post['user']['name'] }} {{ post['user']['surname'] }}</p>
+                    <p class="text">{{ post['post']['text'] }}</p>
+                    <div class="image-box">
+                        {% if post['post']['rendered_picture'] %}
+                            <img src="data:image/jpeg;base64,{{ post['post']['rendered_picture'] }}" alt="img_data"  id="imgslot" width="200" class="post_picture"/>
+                        {% endif %}
+                    </div>
+                    <p class="time">{{ post['post']['creation_time'].strftime('%d/%m/%Y-%H:%M') }}</p>
+                </div>
+                <hr class="solid">
+            {% endfor %}
+
+            {% for comment in comments %}
+                <div class="comment">
+                    <img class="post_profile_image" src="data:image/jpeg;base64,{{ comment['user']['rendered_profile_picture'] }}" alt="img_data"  id="imgslot" width="50"/>
+                    <p class="user_name">{{ comment['user']['name'] }} {{ comment['user']['surname'] }} commented <a href="/add_comment/{{comment['recipe']['id']}}">{{ comment['recipe']['name'] }}</a></p>
+                    <p class="text">{{ comment['comment']['text'] }}</p>
+                    <div class="image-box">
+                        {% if comment['comment']['rendered_picture'] %}
+                            <img src="data:image/jpeg;base64,{{ comment['comment']['rendered_picture'] }}" alt="img_data"  id="imgslot" class="comment_picture"/>
+                        {% endif %}
+                    </div>
+                    <p class="time">{{ comment['comment']['creation_time'].strftime('%d/%m/%Y-%H:%M') }}</p>
+                </div>
+                <hr class="solid">
+            {% endfor %}
+
+        {% endif %}
+    </div>
+  
+{% endblock %}

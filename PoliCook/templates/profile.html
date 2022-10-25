@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/profile.css') }}">
+
+<div class="profile_parent">
+    <div class="profile_self">
+        <h2>My profile</h2>
+        <div class="profile_picture">
+            <img src="data:image/jpeg;base64,{{ user.rendered_profile_picture }}" alt="img_data"  id="imgslot" width="200"/>
+        </div>
+        
+        <form method="POST" action="/profile" enctype="multipart/form-data">
+            {{ change_form.csrf_token }}
+            {{ change_form.change_propic(class_="change-propic-label") }}
+            {{ change_form.image(class_="form-control-file", onchange="this.form.submit()", style="visibility:hidden;") }}
+        </form>
+        
+        {{ user.name }}
+        {{ user.surname }}
+        <br>
+        Email: {{ user.email }}
+        <br>
+        Student of: {{ user.course_of_study}}
+        <br>
+        ID: <b>{{ user.id_for_friendship }}</b>
+        <br> (share this id with your friends to let them add you to their network!)
+        <br>
+        
+        <a href="{{ url_for('auth.logout') }}">
+            Logout
+        </a>
+    </div>
+    <div class="profile_friends">
+        <h3>My friends</h3>
+        <form method="POST" action="/profile">
+
+            {% for field in add_friend_form%}
+                {% for error in field.errors %}
+                    <div class="alert error">
+                        {{ error }}
+                    </div>    
+                {% endfor %}
+            {% endfor %}
+            
+            {{ add_friend_form.csrf_token }}
+            {{ add_friend_form.id_for_friendship(class_="search-bar-friends", placeholder="Friend ID") }}
+            {{ add_friend_form.submit(class_="search-friends-button") }}
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{category}}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <hr class="solid">
+        {% if friends|length == 0 %}
+            <p>You have no friends yet, add them using the search bar!</p>
+        {% endif %}
+
+        {% for friend in friends %}
+            <img class="friend-propic" src="data:image/jpeg;base64,{{ friend.rendered_profile_picture }}" alt="img_data"  id="imgslot" width="30"/>
+            <p class="friend-name"> {{ friend.name }} {{ friend.surname }}</p>
+        {% endfor %}
+        
+    </div>
+</div>
+    
+{% endblock %}
